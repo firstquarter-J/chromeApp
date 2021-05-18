@@ -1,15 +1,15 @@
 h1 {
-    color : black;
+    color : white;
     font-size: 100px;
 }
 
 body {
-    background-color : powderblue;
     text-align: center;
 }
 
-.form, greeting {
-    display: none;
+.form, 
+.greeting {
+    /* display: none; */
 }
 
 .showing {
@@ -18,7 +18,7 @@ body {
 
 .js-weather {
     font-size: 50px;
-    color : red;
+    color : white;
 }
 
 @keyframes fadeIn {

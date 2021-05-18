@@ -13,8 +13,8 @@ function getWeather(lat, lon) {
         .then(function(json) {
             const temperature = json.main.temp;
             const place = json.name;
-            weather.innerText = `현재 온도 : ${temperature}
-                                 현재 위치 : ${place}`
+            weather.innerText = `${temperature}
+                                 ${place}`
         });
 }
 
