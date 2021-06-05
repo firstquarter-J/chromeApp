@@ -4,52 +4,47 @@ const API_KEY = "761047b11b9ee4554c537e1d7f91fdf4";
 const COORDS = 'coords';
 
 function getWeather(lat, lon) {
-    fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-        )
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(json) {
-            const temperature = json.main.temp;
-            const place = json.name;
-            weather.innerText = `${temperature} ℃
-                                ${place}`
-        });
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`)
+    .then(function(response) {
+        return response.json()
+    }).then(function(json) {
+        const temperature = json.main.temp;
+        const place = json.name;
+        weather.innerText = `${temperature}℃
+        ${place}
+        `
+    })
 }
 
 function saveCoords(coordsObj) {
     localStorage.setItem(COORDS, JSON.stringify(coordsObj));
 }
 
-function handleGeoSucces(position) {
+function handleGeoError() {
+    console.log(`Can't Access Geo Location!`)
+}
+
+function handleGeoSuccess(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     const coordsObj = {
         latitude,
         longitude
-        // latitude : latitude,
-        // longitude : longitude
-        // 동일하게 쓰면 걍 써도 되는구나!
-    };
+    }; 
     saveCoords(coordsObj);
     getWeather(latitude, longitude);
 }
 
-function handleGeoError() {
-    console.log("Can't access geo location");
-}
-
 function askForCoords() {
-    navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError)
+    navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
 }
 
 function loadCoords() {
-    const loadedCoords = localStorage.getItem(COORDS);
-    if ( loadedCoords === null ) {
+    const loadedCords = localStorage.getItem(COORDS);
+    if(loadedCords === null) {
         askForCoords();
     } else {
-        const parsedCoords = JSON.parse(loadedCoords);
+        const parsedCoords = JSON.parse(loadedCords);
         getWeather(parsedCoords.latitude, parsedCoords.longitude);
     }
 }
